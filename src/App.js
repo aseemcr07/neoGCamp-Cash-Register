@@ -5,7 +5,7 @@ export default function App() {
   var [change, setChange] = useState();
   var [notesArr, setNotesArr] = useState([0, 0, 0, 0, 0, 0, 0]);
 
-  var denominations = [2000, 500, 100, 20, 10, 5, 1];
+  var denominations = [2000, 500, 100, 50, 20, 10, 1];
 
   function onClickHandler(event) {
     var billInput = Number(document.querySelector("#bill-input").value);
@@ -20,13 +20,20 @@ export default function App() {
       setChange(change);
 
       for (var i = 0; i < denominations.length; i++) {
+        if (change >= denominations[i]) {
+          notesArr[i] = Math.floor(change / denominations[i]);
+          change = change % denominations[i];
+        }
+        /*
         var numNotes = Math.trunc(change / denominations[i]);
         change = change % denominations[i];
-
-        let numNotesArr = notesArr;
-        numNotesArr[i] = numNotes;
-        setNotesArr(numNotesArr);
+        
+       let numNotesArr = notesArr;
+      numNotesArr[i] = numNotes;
+      setNotesArr(numNotesArr);
+      */
       }
+      setNotesArr(notesArr);
     }
   }
 
@@ -58,8 +65,8 @@ export default function App() {
           <tbody>
             <tr>
               <th>Nos.</th>
-              {notesArr.map((noOfNote) => {
-                return <td>{noOfNote}</td>;
+              {notesArr.map((a) => {
+                return <td>{a}</td>;
               })}
             </tr>
             <tr>
